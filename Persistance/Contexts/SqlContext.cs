@@ -17,18 +17,7 @@ namespace Persistence.Context
 
         public SqlContext(DbContextOptions<SqlContext> options) : base(options)
         {
-            //if (!(this.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists())
-            //{
-            //    if (this.Database.EnsureCreatedAsync().Result)
-            //    {
-            //        var roleId = SeedRole();
-            //        if (roleId is not null)
-            //        {
-            //            SeedUser(roleId);
-            //        }
-            //    }
-
-            //}
+       
 
         }
         protected override void OnModelCreating(ModelBuilder builder)

@@ -24,6 +24,8 @@ using AutoMapper;
 using Application.DTOs.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Persistance.ConcractsImplementation;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,17 +81,62 @@ builder.Host.UseSerilog();
 
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+       new OpenApiInfo
+       {
+           Title = "نادین سافت",
+           Version = "v1"
+       });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "احراز هویت با استفاده از Jwt",
+        Name = "احراز هویت شرکت",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer",
+
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+
+    var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmplFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
+    c.IncludeXmlComments(xmplFullPath);
+});
+
 SeedData SeedData = new SeedData(builder.Services);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NadinSoft V1");
+    });
 }
 
 app.UseHttpsRedirection();
