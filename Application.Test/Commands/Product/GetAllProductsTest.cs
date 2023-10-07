@@ -25,6 +25,7 @@ namespace Application.Test.Commands.Product
             //Act
             GetAllProductsCommand allProductsHanlder = new GetAllProductsCommand();
             var result=await mediatRMoq.Object.Send(allProductsHanlder);
+
             result = new List<GetAllProductsResponse>() {
                new GetAllProductsResponse
                 {
