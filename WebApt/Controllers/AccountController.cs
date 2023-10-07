@@ -24,18 +24,15 @@ namespace WebApi.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IMapper mapper;
         private readonly IConfiguration configuration;
-        private readonly IBackgroundJobClient jobClient;
 
         public AccountController(UserManager<IdentityUser> userManager
             , RoleManager<IdentityRole> roleManager
             , IConfiguration configuration,
-            IBackgroundJobClient jobClient
-            , IMapper mapper)
+            IMapper mapper)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.configuration = configuration;
-            this.jobClient = jobClient;
             this.mapper = mapper;
         }
 
