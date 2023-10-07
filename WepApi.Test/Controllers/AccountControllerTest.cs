@@ -1,25 +1,11 @@
 ﻿using Application.DTOs.User;
 using AutoMapper;
-using Castle.Core.Configuration;
-using Domain.Entities.Users;
 using Hangfire;
-using Hangfire.Common;
-using Hangfire.States;
-using Infrastructure.EmailFactoryMethod.Contracts;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.DTOs;
-using Xunit;
 
 namespace WepApi.Test.Controllers
 {
@@ -27,7 +13,7 @@ namespace WepApi.Test.Controllers
     {
 
         [Fact]
-        public void Register_ShouldRegisterSuccessFully()
+        public async void Register_ShouldRegisterSuccessFully()
         {
 
             //Arrange
@@ -52,11 +38,11 @@ namespace WepApi.Test.Controllers
             var registerResult = res as IdentityResult;
             var userManagerMoq = new Mock<UserManager<IdentityUser>>(Mock.Of<IUserStore<IdentityUser>>(), null, null, null, null, null, null, null, null);
             userManagerMoq.Setup(s =>s.CreateAsync(user, user.PasswordHash)).ReturnsAsync(IdentityResult.Success);
-            userManagerMoq.Setup(p=>p.AddToRoleAsync(user,"User")).ReturnsAsync(IdentityResult.Success);
+            userManagerMoq.Setup(p=>Task.FromResult(p.AddToRoleAsync(user, "User"))).Returns(()=> IdentityResult.Success);
 
 
             var roleManagerMoq = new Mock<RoleManager<IdentityRole>>(Mock.Of<IRoleStore<IdentityRole>>(), null, null, null, null);
-            roleManagerMoq.Setup(p => p.RoleExistsAsync("User").Result).Returns(true);
+            roleManagerMoq.Setup(p => Task.FromResult(p.RoleExistsAsync("User"))).Returns(()=>true);
 
 
             var mapperMoq = new Mock<IMapper>();
@@ -73,7 +59,7 @@ namespace WepApi.Test.Controllers
 
             //Act
             AccountController accountController = new AccountController(userManagerMoq.Object, roleManagerMoq.Object, configurationMoq.Object,jobClient.Object, mapperMoq.Object);
-            var result = accountController.Register(userRegister).Result;
+            var result =await accountController.Register(userRegister);
 
 
             //Assert
@@ -90,7 +76,7 @@ namespace WepApi.Test.Controllers
         }
 
         [Fact]
-        public void Login_User_Should_Login()
+        public async void Login_User_Should_Login()
         {
             //Arrange
             UserLogin userLogin = new UserLogin
@@ -108,8 +94,8 @@ namespace WepApi.Test.Controllers
             mapperMoq.Setup(p => p.Map<IdentityUser>(userLogin)).Returns(user);
 
             var userManagerMoq = new Mock<UserManager<IdentityUser>>(Mock.Of<IUserStore<IdentityUser>>(), null, null, null, null, null, null, null, null);
-            userManagerMoq.Setup(p => p.FindByEmailAsync(userLogin.Email).Result).Returns(user);
-            userManagerMoq.Setup(p => p.CheckPasswordAsync(user, userLogin.Password).Result).Returns(true);
+            userManagerMoq.Setup(p => Task.FromResult(p.FindByEmailAsync(userLogin.Email))).Returns(() => user);
+            userManagerMoq.Setup(p => Task.FromResult(p.CheckPasswordAsync(user, userLogin.Password))).Returns(() => true);
 
             var roleManagerMoq = new Mock<RoleManager<IdentityRole>>(Mock.Of<IRoleStore<IdentityRole>>(), null, null, null, null);
 
@@ -127,7 +113,7 @@ namespace WepApi.Test.Controllers
 
             //Act
             AccountController accountController = new AccountController(userManagerMoq.Object, roleManagerMoq.Object, configurationMoq.Object,JobClient.Object, mapperMoq.Object);
-            var result = accountController.Login(userLogin).Result;
+            var result =await accountController.Login(userLogin);
 
 
             //Assert

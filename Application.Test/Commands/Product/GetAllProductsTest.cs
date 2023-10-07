@@ -16,7 +16,7 @@ namespace Application.Test.Commands.Product
         
 
         [Fact]
-        public void GetProducts_Should_Be_Return_ProductsList()
+        public async void GetProducts_Should_Be_Return_ProductsList()
         {
             //Arrange
             var mediatRMoq = new Mock<IMediator>();
@@ -24,7 +24,7 @@ namespace Application.Test.Commands.Product
 
             //Act
             GetAllProductsCommand allProductsHanlder = new GetAllProductsCommand();
-            var result= mediatRMoq.Object.Send(allProductsHanlder).Result;
+            var result=await mediatRMoq.Object.Send(allProductsHanlder);
             result = new List<GetAllProductsResponse>() {
                new GetAllProductsResponse
                 {
