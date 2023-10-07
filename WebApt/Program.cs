@@ -57,7 +57,7 @@ MapperConfiges mapperConfiges = new MapperConfiges(builder.Services);
 
 
 #region HangfireConfig
-HangfireConfigs HangfireConfigs = new HangfireConfigs(builder.Services, builder.Configuration);
+//HangfireConfigs HangfireConfigs = new HangfireConfigs(builder.Services, builder.Configuration);
 #endregion
 
 

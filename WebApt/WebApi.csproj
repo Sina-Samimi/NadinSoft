@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-WebApt-C44A991B-8A1D-4E71-BE14-FC7C52E1F64D</UserSecretsId>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\CRUD\WebApi.xml</DocumentationFile>
+    <DocumentationFile>WebApi.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
