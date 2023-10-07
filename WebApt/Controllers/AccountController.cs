@@ -94,8 +94,10 @@ namespace WebApi.Controllers
                 });
             }
            
-            var addRoleResult = await userManager.AddToRoleAsync(user, "User");
-            var jobId=jobClient.Enqueue<IEmailSenderFactory>(p => p.Create(configuration["Setting:EmailSenderProvider"]));
+            //var addRoleResult = await userManager.AddToRoleAsync(user, "User");
+            //var jobId=jobClient.Enqueue<IEmailSenderFactory>(p => p.Create(configuration["Setting:EmailSenderProvider"]));
+
+
             return Ok(new ResponseDto<string>
             {
                 Success = true,
@@ -138,7 +140,8 @@ namespace WebApi.Controllers
 
                 if (user is not null && checkPassword is true)
                 {
-                    Log.Information("Login=>User {@Email} Succesfully Logined In", user.Email);
+                    //Log.Information("Login=>User {@Email} Succesfully Logined In", user.Email);
+
                     return Ok(new ResponseDto<SetToken>
                     {
                         Success = true,
@@ -150,7 +153,7 @@ namespace WebApi.Controllers
                     });
                 }
 
-                Log.Warning("Exception In Login For User:{@Email} With Errors:{@Errors}", login.Email, "Wrong UserName Or Password");
+                //Log.Warning("Exception In Login For User:{@Email} With Errors:{@Errors}", login.Email, "Wrong UserName Or Password");
 
                 return Ok(new ResponseDto
                 {

@@ -66,8 +66,8 @@ namespace WepApi.Test.Controllers
             var configurationMoq = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
             configurationMoq.Setup(p => p[It.Is<string>(p => p == "Settng:EmailSenderProvider")]).Returns("Gmail");
 
-            var emailService = new Mock<IEmailSenderFactory>();
-            emailService.Setup(p => p.Create(It.IsAny<string>()));
+            //var emailService = new Mock<IEmailSenderFactory>();
+            //emailService.Setup(p => p.Create(It.IsAny<string>()));
 
             var jobClient = new Mock<IBackgroundJobClient>();
 
@@ -77,7 +77,8 @@ namespace WepApi.Test.Controllers
 
 
             //Assert
-            jobClient.Verify(p => p.Create(It.Is<Job>(job => job.Method.Name == "Create"), It.IsAny<EnqueuedState>()));
+            //jobClient.Verify(p => p.Create(It.Is<Job>(job => job.Method.Name == "Create"), It.IsAny<EnqueuedState>()));
+
             OkObjectResult? model = result as OkObjectResult;
             Assert.IsAssignableFrom<ResponseDto<string>>(model?.Value);
             Assert.True(model.StatusCode == 200);

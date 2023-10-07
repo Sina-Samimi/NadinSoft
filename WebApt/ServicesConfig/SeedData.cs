@@ -39,11 +39,18 @@ namespace WebApi.ServicesConfig
             var getRole = roleManager.Roles.FirstOrDefault();
             if (getRole is null)
             {
-                IdentityRole identityRole = new IdentityRole()
+                IdentityRole AdminRole = new IdentityRole()
                 {
                     Name = "Admin"
                 };
-                var setRole = roleManager.CreateAsync(identityRole).Result;
+
+                IdentityRole UserRole = new IdentityRole()
+                {
+                    Name = "User"
+                };
+
+                var setAdminRole = roleManager.CreateAsync(AdminRole).Result;
+                var setUserRole = roleManager.CreateAsync(UserRole).Result;
             }
         }
         private void SeedUser()

@@ -4,7 +4,7 @@ using Domain.Entities.Products;
 
 namespace WebApi.MappProfiles
 {
-    public class ProductProfile:Profile
+    public class ProductProfile : Profile
     {
         public ProductProfile()
         {
@@ -18,6 +18,9 @@ namespace WebApi.MappProfiles
                 .ReverseMap();
 
             CreateMap<Product, UpdateProductDto>()
+                .ReverseMap();
+
+            CreateMap<Product, GetProductByIdDto>()
                 .ReverseMap();
         }
     }

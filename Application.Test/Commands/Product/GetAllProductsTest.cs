@@ -29,14 +29,12 @@ namespace Application.Test.Commands.Product
                new GetAllProductsResponse
                 {
                     Id=guid,
-                    Title="test",
-                    Price=1000
+                    Name="test",
                 },
                 new GetAllProductsResponse
                 {
                     Id=guid,
-                    Title="test",
-                    Price=1000
+                    Name="test",
                 }
             };
 

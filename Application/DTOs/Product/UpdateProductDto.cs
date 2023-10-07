@@ -10,13 +10,11 @@ namespace Application.DTOs.Product
     public class UpdateProductDto
     {
         public Guid Id { get; set; }
+        public string Name { get; set; }
 
-        [Required]
-        public string Title { get; set; }
+        public string ManufacturePhone { get; set; }
 
-        public string Description { get; set; }
-
-        [Required]
-        public int Price { get; set; }
+        public string ManufactureEmail { get; set; }
+        public bool IsAvailable { get; set; } = true;
     }
 }

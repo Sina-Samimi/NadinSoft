@@ -20,6 +20,7 @@ namespace WebApi.Utilities
             {
                 new Claim("UserId",user.Id),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim("Name", user.UserName),
             };
 
             string key = configuration["JWtConfig:Key"];

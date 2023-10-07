@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:WebApi.Controllers.ProductController.Post(Application.DTOs.Product.AddProductDto)">
+            <summary>
+            </summary>
+            <example email="sina@gmail.com"></example>
+            <param name="addProductDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.ProductController.Put(Application.DTOs.Product.UpdateProductDto)">
+            <summary>
+            Edit Product
+            </summary>
+            <param name="updateProductDto">Product Data For Update</param>
+            <returns>return Updatetd Product When is Successed</returns>
+            <response code="200">Success</response>
+            <response code="404">Product Not Found</response>
+            <response code="401">If You Dont Authorized Or Your Token Expired</response>
+            <response code="500">Server Error Should Contact To Support Team</response>
+        </member>
+        <member name="M:WebApi.ServicesConfig.SerilogConfigs.UseConsole">
+            <summary>
+            Use Console for logging and set set configs
+            </summary>
+        </member>
+        <member name="M:WebApi.ServicesConfig.SerilogConfigs.UseFile">
+            <summary>
+            Use file for logging and set set configs
+            </summary>
+        </member>
+        <member name="M:WebApi.ServicesConfig.SerilogConfigs.UseSqlServer">
+            <summary>
+            Use SqlServer for logging and set set configs
+            </summary>
+        </member>
+        <member name="M:WebApi.ServicesConfig.SerilogConfigs.UseSeq">
+            <summary>
+            Use Seq for logging and set set configs
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Entities.Users;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +18,9 @@ namespace Domain.Entities.Products
 
         public string ManufactureEmail { get; set; }=null!;
         public bool IsAvailable { get; set; } = true;
+
+        #region Relation
+        public IdentityUser User { get; set; }
+        #endregion
     }
 }

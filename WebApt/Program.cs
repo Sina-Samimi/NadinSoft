@@ -1,31 +1,14 @@
 ﻿using Application;
 using Application.Contracts;
-using Hangfire;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Tokens;
 using Persistence.Context;
 using Serilog;
-using Serilog.Sinks.SystemConsole.Themes;
-using Serilog.Sinks.MSSqlServer;
-using System.Configuration;
-using System.Text;
 using WebApi.Helpers;
 using WebApi.ServicesConfig;
-using Infrastructure.EmailFactoryMethod.Contracts;
-using Infrastructure.EmailFactoryMethod.ContractsImplementation;
-using MediatR;
-using Application.Contracts.Commands.Products;
-using AutoMapper;
-using Application.DTOs.User;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Persistance.ConcractsImplementation;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,9 +30,18 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 #endregion
 
+#region Authorization&Plicis
+builder.Services.AddAuthorization(op =>
+{
+    op.AddPolicy("IsProductForUser", policy => {
+        policy.Requirements.Add(new ProductAuthorRequirement());
+    });
+});
+#endregion
 
 #region Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSingleton<IAuthorizationHandler, ProductAuthorizationHandler>();
 #endregion
 
 
@@ -125,10 +117,10 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmplFullPath);
 });
 
-SeedData SeedData = new SeedData(builder.Services);
+//SeedData SeedData = new SeedData(builder.Services);
 
 var app = builder.Build();
-
+app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -136,6 +128,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "NadinSoft V1");
+        c.InjectStylesheet("/css/swaggerrtl.css");
     });
 }
 

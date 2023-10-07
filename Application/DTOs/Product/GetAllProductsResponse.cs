@@ -9,8 +9,12 @@ namespace Application.DTOs.Product
     public class GetAllProductsResponse
     {
         public Guid Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int Price { get; set; }
+        public string Name { get; set; }
+        public DateTime ProductDate { get; set; } = DateTime.Now;
+
+        public string ManufacturePhone { get; set; }
+
+        public string ManufactureEmail { get; set; }
+        public bool IsAvailable { get; set; } = true;
     }
 }

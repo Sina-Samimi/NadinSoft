@@ -2,6 +2,7 @@
 using AutoMapper;
 using Domain.Entities.Products;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,12 @@ namespace Application.Contracts.Queries.Products
             }
             public async Task<GetProductByIdDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
             {
-                var product = await unitOfWork.GetRepository<Product>().GetEntityAsync(p => p.Id == request.productId);
+                var product =await unitOfWork.GetRepository<Product>().Query(p => p.Id == request.productId)
+                    .Include(p=>p.User)
+                    .FirstOrDefaultAsync();
+
                 var mappedProduct = mapper.Map<GetProductByIdDto>(product);
-                return mappedProduct;
+                return await Task.FromResult(mappedProduct);
             }
         }
     }

@@ -34,8 +34,17 @@ namespace Application.Contracts.Commands.Products
             {
                 try
                 {
-                    var oldproduct = mapper.Map<Product>(request.updateProductDto);
-                    unitOfWork.GetRepository<Product>().Update(oldproduct);
+                    var productMaped = mapper.Map<Product>(request.updateProductDto);
+                    var newProduct =await unitOfWork.GetRepository<Product>().FirstOrDefaultAsync(p=>p.Id==request.updateProductDto.Id);
+                    if (newProduct == null)
+                    {
+                        return await Task.FromResult(new UpdateProductDto { });
+                    }
+                    newProduct.Id= request.updateProductDto.Id;
+                    newProduct.Name= request.updateProductDto.Name;
+                    newProduct.ManufacturePhone = request.updateProductDto.ManufacturePhone;
+                    newProduct.ManufactureEmail = request.updateProductDto.ManufactureEmail;
+                    unitOfWork.GetRepository<Product>().Update(newProduct);
                     await unitOfWork.SaveChangesAsync();
                     return await Task.FromResult(request.updateProductDto);
                 }
