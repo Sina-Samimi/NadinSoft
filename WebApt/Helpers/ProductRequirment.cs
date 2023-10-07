@@ -18,19 +18,5 @@ namespace WebApi.Helpers
             return Task.CompletedTask;
         }
     }
-    
-
-    //public class IsProductRequirmentAuthorization : AuthorizationHandler<ProductRequirment, >
-    //{
-    //    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ProductRequirment requirement, AuthorizationRquirmentDto<AddProductDto> resource)
-    //    {
-    //        if (context.User.Identity?.Name == resource.Dto.Name)
-    //        {
-    //            context.Succeed(requirement);
-    //        }
-
-    //        return Task.CompletedTask;
-    //    }
-    //}
     public class ProductAuthorRequirement : IAuthorizationRequirement { }
 }
