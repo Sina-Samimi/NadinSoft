@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using Persistance.ConcractsImplementation;
 using Persistence.Context;
+using WebApi.Utilities;
 
 namespace WebApi.ServicesConfig
 {
@@ -34,7 +35,7 @@ namespace WebApi.ServicesConfig
 
         }
 
-        private void SeedRole()
+        public void SeedRole()
         {
             var getRole = roleManager.Roles.FirstOrDefault();
             if (getRole is null)
@@ -53,7 +54,7 @@ namespace WebApi.ServicesConfig
                 var setUserRole = roleManager.CreateAsync(UserRole).Result;
             }
         }
-        private void SeedUser()
+        public void SeedUser()
         {
             var getUser = userManager.Users.FirstOrDefault();
             if (getUser is null)

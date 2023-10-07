@@ -9,6 +9,7 @@ using WebApi.ServicesConfig;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
+using WebApi.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -117,7 +118,7 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmplFullPath);
 });
 
-//SeedData SeedData = new SeedData(builder.Services);
+SeedData SeedData = new SeedData(builder.Services);
 
 var app = builder.Build();
 app.UseStaticFiles();
